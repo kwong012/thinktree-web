@@ -95,26 +95,13 @@
       <div class="demo-embed reveal">
         <div class="demo-bar">
           <span class="demo-title">thinkTREE / DEMO</span>
-          <span class="demo-state" id="demoState" data-state="checking"><i class="demo-dot"></i><span id="demoStatus">检查中</span></span>
+          <span class="demo-state" data-state="live"><i class="demo-dot"></i><span data-i18n="demo.live">已连接</span></span>
           <span class="demo-meta" data-i18n="demo.meta">22 轮 · 148 个事件</span>
           <span class="demo-swipe" data-i18n="demo.swipe">横向滚动查看</span>
-          <a class="demo-open" href="http://localhost:9178/" target="_blank" rel="noopener" data-i18n="demo.open">在新窗口打开 ↗</a>
+          <a class="demo-open" href="demo/" target="_blank" rel="noopener" data-i18n="demo.open">在新窗口打开 ↗</a>
         </div>
         <div class="demo-view">
-          <iframe id="demoFrame" data-src="http://localhost:9178/" title="thinkTREE 虚拟演示" loading="lazy" hidden></iframe>
-          <div class="demo-fallback" id="demoFallback">
-            <div class="demo-fallback-inner">
-              <p class="demo-fallback-title" data-i18n="demo.fallbackTitle">本地演示尚未启动</p>
-              <p class="demo-fallback-note" data-i18n="demo.fallbackNote">在项目根目录运行：</p>
-              <div class="cmd demo-cmd">
-                <code>npm run demo</code>
-                <button class="copy" type="button" data-copy="npm run demo" data-i18n="copy">复制</button>
-              </div>
-              <p class="demo-fallback-hint" data-i18n="demo.fallbackHint">启动后点击重试。默认地址 http://localhost:9178。</p>
-              <p class="demo-static-note" data-i18n="demo.staticNote">静态站点无法运行 Node 服务；首页视频是同一份虚拟会话的真实录制。</p>
-              <button class="btn" id="demoRetry" type="button" data-i18n="demo.retry">重新检查</button>
-            </div>
-          </div>
+          <iframe id="demoFrame" src="demo/" title="thinkTREE 虚拟演示" loading="lazy"></iframe>
         </div>
       </div>
     </section>

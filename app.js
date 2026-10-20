@@ -1,5 +1,5 @@
 /* =========================================================
-   thinkTREE web — i18n, hero video, local demo embed
+   thinkTREE web — i18n, hero video, static demo embed
    ========================================================= */
 (() => {
   'use strict';
@@ -45,17 +45,10 @@
       'trace.meta': '2 turns · 13 events · D:\\agent\\thinktree',
       'trace.reset': '复位',
       'trace.hint': '拖拽平移 · 滚轮缩放 · 点击节点展开',
-      'demo.checking': '检查中',
       'demo.live': '已连接',
-      'demo.offline': '未启动',
       'demo.open': '在新窗口打开 ↗',
       'demo.meta': '22 轮 · 148 个事件',
       'demo.swipe': '横向滚动查看',
-      'demo.fallbackTitle': '本地演示尚未启动',
-      'demo.fallbackNote': '在项目根目录运行：',
-      'demo.fallbackHint': '启动后点击重试。默认地址 http://localhost:9178。',
-      'demo.staticNote': '静态站点无法运行 Node 服务；首页视频是同一份虚拟会话的真实录制。',
-      'demo.retry': '重新检查',
       'features.title': '为长会话设计的工作台',
       'features.lead': '不是把日志换个皮肤，而是换一种组织信息的方式。每一步都有位置，每一轮都看得见。',
       'f1.title': '轨迹树',
@@ -160,17 +153,10 @@
       'trace.meta': '2 turns · 13 events · D:\\agent\\thinktree',
       'trace.reset': 'Reset',
       'trace.hint': 'Drag to pan · scroll to zoom · click a node',
-      'demo.checking': 'CHECKING',
       'demo.live': 'LIVE',
-      'demo.offline': 'OFFLINE',
       'demo.open': 'Open in new window ↗',
       'demo.meta': '22 turns · 148 events',
       'demo.swipe': 'Scroll sideways',
-      'demo.fallbackTitle': 'The local demo is not running',
-      'demo.fallbackNote': 'Run this from the project root:',
-      'demo.fallbackHint': 'Start it, then check again. Default address: http://localhost:9178.',
-      'demo.staticNote': 'Static hosting cannot run the Node server; the hero video is a real recording of the same virtual session.',
-      'demo.retry': 'Check again',
       'features.title': 'A workbench built for long sessions',
       'features.lead': 'Not a new skin for logs — a different way to organize the information. Every step has a place; every turn stays visible.',
       'f1.title': 'Trajectory tree',
@@ -245,9 +231,6 @@
 
   const metaDesc = $('meta[name="description"]');
   const langBtn = $('#langBtn');
-  const demoFrameEl = $('#demoFrame');
-  const demoBase = (demoFrameEl?.dataset.src || 'http://localhost:9178/');
-  const DEMO_URL = demoBase.endsWith('/') ? demoBase : demoBase + '/';
 
   let lang = localStorage.getItem('tt-web-lang') || 'zh';
   if (!I18N[lang]) lang = 'zh';
@@ -280,7 +263,6 @@
 
   langBtn.addEventListener('click', () => {
     applyLang(lang === 'zh' ? 'en' : 'zh', true);
-    if (typeof setDemoStatus === 'function') setDemoStatus(demoState);
   });
 
   /* ---------------- copy buttons ---------------- */
@@ -359,69 +341,16 @@
     syncVideo();
   }
 
-  /* ---------------- local demo embed ---------------- */
-  const demoEmbed = $('.demo-embed');
+  /* ---------------- static demo embed ---------------- */
   const demoFrame = $('#demoFrame');
   const demoView = $('.demo-view');
-  const demoFallback = $('#demoFallback');
-  const demoStateEl = $('#demoState');
-  const demoStatusEl = $('#demoStatus');
-  const demoRetry = $('#demoRetry');
-  let demoState = 'checking';
 
-  function setDemoStatus(state) {
-    demoState = state;
-    if (demoStateEl) demoStateEl.dataset.state = state;
-    if (demoStatusEl) demoStatusEl.textContent = t('demo.' + state);
-  }
-
-  async function checkDemo() {
-    if (!demoFrame || !demoFallback) return;
-    setDemoStatus('checking');
-    demoFallback.hidden = false;
-    demoFrame.hidden = true;
-
-    const controller = new AbortController();
-    const timer = window.setTimeout(() => controller.abort(), 2500);
-    try {
-      await fetch(DEMO_URL.replace(/\/$/, '') + '/api/agents', {
-        mode: 'no-cors',
-        cache: 'no-store',
-        signal: controller.signal,
-      });
-      if (demoFrame.getAttribute('src') !== DEMO_URL) demoFrame.setAttribute('src', DEMO_URL);
-      demoFrame.hidden = false;
-      demoFallback.hidden = true;
-      setDemoStatus('live');
-    } catch {
-      demoFrame.hidden = true;
-      demoFallback.hidden = false;
-      setDemoStatus('offline');
-    } finally {
-      window.clearTimeout(timer);
-    }
-  }
-
-  if (demoRetry) demoRetry.addEventListener('click', checkDemo);
   if (demoFrame) {
     demoFrame.addEventListener('load', () => {
       if (demoView && window.innerWidth <= 720) demoView.scrollLeft = 300;
     });
   }
 
-  if (demoEmbed && 'IntersectionObserver' in window) {
-    const dio = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) {
-        dio.disconnect();
-        checkDemo();
-      }
-    }, { rootMargin: '200px 0px', threshold: 0.01 });
-    dio.observe(demoEmbed);
-  } else {
-    checkDemo();
-  }
-
   /* ---------------- init ---------------- */
   applyLang(lang, false);
-  setDemoStatus('checking');
 })();
