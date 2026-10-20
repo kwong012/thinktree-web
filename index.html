@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>thinkTREE · 把 agent 的工作轨迹摊开在一张图上</title>
+  <meta name="description" content="thinkTREE 把终端里翻不完的 agent 对话日志，变成一张可缩放、可拖动的轨迹图。轨迹树、无限画布、小地图与 Dashboard，只读本地数据。">
+  <meta name="theme-color" content="#000000">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="thinkTREE · 看见 agent 的每一步">
+  <meta property="og:description" content="把 agent 的工作轨迹摊开在一张图上。左侧轨迹树，右侧无限画布，右下角小地图。只读本地数据。">
+  <meta property="og:image" content="assets/canvas-poster.jpg">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要内容</a>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="thinkTREE 首页">
+      <svg class="brand-mark" width="150" height="26" viewBox="0 0 195 34" role="img" aria-label="thinkTREE">
+        <path d="M18 29V13.5M9 13.5h17M26 13.5 29.5 9.5" fill="none" stroke="var(--text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="9" cy="13.5" r="2.2" fill="var(--accent)"/>
+        <circle cx="29.5" cy="9.5" r="2.2" fill="var(--accent)"/>
+        <circle cx="18" cy="29" r="2.2" fill="var(--accent)"/>
+        <text x="36" y="28" font-size="19" font-weight="500" fill="var(--text)" letter-spacing=".2">hink<tspan fill="var(--accent)" font-weight="600">T</tspan><tspan font-weight="600" letter-spacing=".8">REE</tspan></text>
+      </svg>
+    </a>
+    <span class="status" data-status="open"><i class="sdot"></i><span data-i18n="top.live">LIVE</span></span>
+
+    <nav class="nav" aria-label="主导航">
+      <a href="#trace" data-i18n="nav.trace">演示</a>
+      <a href="#features" data-i18n="nav.features">功能</a>
+      <a href="#dashboard" data-i18n="nav.dashboard">Dashboard</a>
+      <a href="#start" data-i18n="nav.start">快速开始</a>
+      <a href="#agents" data-i18n="nav.agents">Agents</a>
+    </nav>
+
+    <div class="hdr-actions">
+      <a class="gh" href="https://github.com" data-github target="_blank" rel="noopener noreferrer" data-i18n="top.github">GitHub ↗</a>
+      <button class="langbtn" id="langBtn" type="button" title="中文 / English">EN</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ================= hero ================= -->
+    <section class="hero wrap" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow reveal"><i></i><span data-i18n="hero.eyebrow">LOCAL-FIRST · AGENT TRACE</span></p>
+        <h1 class="reveal" data-i18n-html="hero.title">把 agent 的<br><em>工作轨迹</em>摊开在<br>一张图上。</h1>
+        <p class="lead reveal" data-i18n="hero.lead">终端里的对话越翻越长。thinkTREE 把每个会话变成一张可缩放、可拖动的工作轨迹图：左侧完整对话树，右侧无限画布，右下角小地图。点一下，就回到对应位置。</p>
+
+        <div class="cta reveal">
+          <a class="btn primary" href="#trace"><span data-i18n="hero.cta1">查看实时演示</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M2.5 7.5 6 11l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="btn" href="#start" data-i18n="hero.cta2">快速开始</a>
+        </div>
+
+        <div class="cmd reveal">
+          <span class="cmd-label" data-i18n="hero.cmdLabel">QUICK PREVIEW</span>
+          <code>npm run demo</code>
+          <button class="copy" type="button" data-copy="npm run demo" data-i18n="copy">复制</button>
+        </div>
+
+        <div class="hero-meta reveal">
+          <div><b>6</b><span data-i18n="hero.m1">agent 适配</span></div>
+          <div><b>12ms</b><span data-i18n="hero.m2">7.2k 节点 p95</span></div>
+          <div><b>0</b><span data-i18n="hero.m3">数据上传</span></div>
+          <div><b>MIT</b><span data-i18n="hero.m4">开源许可</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal">
+        <div class="showcase" id="showcase">
+          <video id="heroVideo" class="showcase-video" autoplay muted loop playsinline preload="metadata" poster="assets/canvas-poster.jpg" aria-label="thinkTREE 真实会话画布录制">
+            <source src="assets/canvas-demo.mp4" type="video/mp4">
+            <p class="video-fallback" data-i18n-html="hero.videoFallbackHtml">浏览器不支持视频播放。<a href="assets/canvas-demo.mp4">下载演示视频</a></p>
+          </video>
+          <div class="showcase-bar">
+            <span class="rec"><i></i><span data-i18n="hero.videoLabel">REAL RECORDING</span></span>
+            <span class="showcase-time">14s · 1280×672</span>
+            <button class="video-toggle" id="videoToggle" type="button" aria-label="暂停视频">
+              <svg class="ico-pause" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2v8M8 2v8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <svg class="ico-play" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2.2 9.5 6 4 9.8Z" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+        <p class="visual-cap"><span data-i18n="hero.cap">真实会话录制 · 可暂停回看</span><span>SESSION 01 · RECORDED</span></p>
+      </div>
+    </section>
+
+    <!-- ================= interactive trace ================= -->
+    <section class="section wrap" id="trace">
+      <header class="sec-head reveal">
+        <span class="sec-index">01</span>
+        <div>
+          <h2 data-i18n="trace.title">一张图，替代 endless scroll</h2>
+          <p data-i18n="trace.lead">拖拽平移、滚轮缩放、点击节点展开。左侧轨迹树与画布同步定位。演示数据为合成数据，不会读取你的任何文件。</p>
+        </div>
+      </header>
+
+      <div class="app-mock reveal">
+        <div class="mock-topbar">
+          <div class="mock-brand">
+            <svg width="96" height="20" viewBox="0 0 195 34" aria-hidden="true">
+              <path d="M18 29V13.5M9 13.5h17M26 13.5 29.5 9.5" fill="none" stroke="#f2f2f2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="9" cy="13.5" r="2.2" fill="#00c5c7"/><circle cx="29.5" cy="9.5" r="2.2" fill="#00c5c7"/><circle cx="18" cy="29" r="2.2" fill="#00c5c7"/>
+              <text x="36" y="28" font-size="19" font-weight="500" fill="#f2f2f2">hink<tspan fill="#00c5c7" font-weight="600">T</tspan><tspan font-weight="600" letter-spacing=".8">REE</tspan></text>
+            </svg>
+          </div>
+          <span class="mock-status"><i></i>LIVE</span>
+          <div class="mock-tabs">
+            <button type="button" class="on">opencode <em>CLI/TUI</em><i class="focusdot"></i></button>
+            <button type="button">pi <em>CLI</em></button>
+          </div>
+          <div class="mock-actions"><button type="button" data-i18n="trace.data">数据</button><button type="button">中</button></div>
+        </div>
+        <div class="mock-sessionbar">
+          <span class="session-current" data-i18n="trace.session">重构会话解析层</span>
+          <span class="spacer"></span>
+          <span class="meta"><span data-i18n="trace.meta">2 turns · 13 events · D:\agent\thinktree</span></span>
+        </div>
+
+        <div class="mock-body">
+          <aside class="trace-tree">
+            <div class="tree-head">
+              <span class="tree-title">TRAJECTORY</span>
+              <span class="tree-count">2</span>
+            </div>
+            <div class="tree-body" id="treeBody"></div>
+          </aside>
+
+          <div class="trace-stage" id="traceStage">
+            <div class="stage-toolbar">
+              <div class="legend" id="legend"></div>
+              <div class="toolbar-right">
+                <span class="lod-pill" id="lodPill">MID</span>
+                <button type="button" class="reset" id="resetBtn" data-i18n="trace.reset">复位</button>
+              </div>
+            </div>
+
+            <canvas id="traceCanvas" aria-label="thinkTREE 轨迹图交互演示"></canvas>
+
+            <div class="stage-detail" id="nodeDetail" hidden></div>
+
+            <div class="stage-controls">
+              <button type="button" id="zoomOut" aria-label="缩小">−</button>
+              <button type="button" id="zoomIn" aria-label="放大">+</button>
+              <button type="button" id="fitBtn" aria-label="适应画布">
+                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 4V1h3M8 1h3v3M11 8v3H8M4 11H1V8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+
+            <canvas class="mini-canvas" id="miniCanvas" aria-label="小地图"></canvas>
+            <p class="stage-hint" data-i18n="trace.hint">拖拽平移 · 滚轮缩放 · 点击节点展开</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= features ================= -->
+    <section class="section wrap" id="features">
+      <header class="sec-head reveal">
+        <span class="sec-index">02</span>
+        <div>
+          <h2 data-i18n="features.title">为长会话设计的工作台</h2>
+          <p data-i18n="features.lead">不是把日志换个皮肤，而是换一种组织信息的方式。每一步都有位置，每一轮都看得见。</p>
+        </div>
+      </header>
+
+      <div class="feature-grid">
+        <article class="feature reveal" style="--c:#00c5c7">
+          <div class="f-head"><span class="f-index">01</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4v16M5 8h6M5 14h6M15 6v12M15 9h4M15 15h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="3" y="3" width="4" height="3" fill="currentColor"/><rect x="13" y="5" width="4" height="3" fill="currentColor"/></svg>
+          </div>
+          <h3 data-i18n="f1.title">轨迹树</h3>
+          <p data-i18n="f1.desc">借鉴工业软件的设计树：按轮次展开提问、上下文、模型调用、思考、工具与回答。点击任意步骤，画布自动定位。</p>
+          <span class="f-tag">DESIGN TREE</span>
+        </article>
+
+        <article class="feature reveal" style="--c:#6871ff">
+          <div class="f-head"><span class="f-index">02</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <h3 data-i18n="f2.title">无限画布</h3>
+          <p data-i18n="f2.desc">Canvas 2D 批量绘制，缩放、平移、拖动节点都不掉帧。信息按空间位置组织，而不是挤在一条滚动日志里。</p>
+          <span class="f-tag">CANVAS 2D</span>
+        </article>
+
+        <article class="feature reveal" style="--c:#c7c400">
+          <div class="f-head"><span class="f-index">03</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="12" y="12" width="7" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 7h6M5 10h5M5 13h4M5 16h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <h3 data-i18n="f3.title">小地图</h3>
+          <p data-i18n="f3.desc">右下角缩略图显示整个会话与当前视口。单击跳转、拖拽移动视口、滚轮缩放。长会话里也能随时回到某一轮。</p>
+          <span class="f-tag">NAVIGATE</span>
+        </article>
+
+        <article class="feature reveal" style="--c:#ca30c7">
+          <div class="f-head"><span class="f-index">04</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m14.5 14.5 5 5M8 8h4M8 11h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3 data-i18n="f4.title">语义缩放</h3>
+          <p data-i18n="f4.desc">远、中、近三档细节：缩小保留全部节点与主线，放大展开完整内容。任何缩放级别都不会丢掉信息。</p>
+          <span class="f-tag">LOD</span>
+        </article>
+
+        <article class="feature reveal" style="--c:#5ffa68">
+          <div class="f-head"><span class="f-index">05</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M9 20V4M14 20v-7M19 20v-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M2 21h20" stroke="currentColor" stroke-width="1.2"/></svg>
+          </div>
+          <h3 data-i18n="f5.title">Dashboard</h3>
+          <p data-i18n="f5.desc">需要看整体时打开右侧抽屉：token、缓存命中、上下文构成、费用、轮次、热力图与会话明细，按 24h / 7d / 30d 汇总。</p>
+          <span class="f-tag">ECHARTS</span>
+        </article>
+
+        <article class="feature reveal" style="--c:#ff77ff">
+          <div class="f-head"><span class="f-index">06</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8 7.5 9.5 4.4-1.5 7.5-4.9 7.5-9.5V6L12 3Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m8.5 11.5 2.4 2.4 4.6-4.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 data-i18n="f6.title">本地只读</h3>
+          <p data-i18n="f6.desc">只读取本地 agent 的会话存储。不上传内容、不截屏、不 OCR、无遥测。服务默认只建议在可信局域网使用。</p>
+          <span class="f-tag">PRIVACY</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= dashboard ================= -->
+    <section class="section wrap" id="dashboard">
+      <header class="sec-head reveal">
+        <span class="sec-index">03</span>
+        <div>
+          <h2 data-i18n="dash.title">需要总量时，看数据</h2>
+          <p data-i18n="dash.lead">当前会话看清每一步，全部会话看清成本与缓存。Dashboard 作为右侧抽屉展开，不打断画布。</p>
+        </div>
+      </header>
+
+      <figure class="shot reveal">
+        <div class="shot-bar">
+          <span class="shot-title">thinkTREE / DASHBOARD</span>
+          <span class="shot-meta">24h · 7d · 30d</span>
+        </div>
+        <img src="assets/dashboard.png" alt="thinkTREE Dashboard：token、缓存、上下文、费用与热力图" loading="lazy" width="2549" height="1352">
+        <figcaption data-i18n="dash.cap">token、缓存命中、上下文构成、费用、轮次与会话热力图，集中在一个面板里。</figcaption>
+      </figure>
+    </section>
+
+    <!-- ================= quick start ================= -->
+    <section class="section wrap" id="start">
+      <header class="sec-head reveal">
+        <span class="sec-index">04</span>
+        <div>
+          <h2 data-i18n="start.title">四行命令，开始使用</h2>
+          <p data-i18n="start.lead">没有本地 agent 时，先用合成数据预览界面。有 agent 时，直接启动面板跟随当前存活会话。</p>
+        </div>
+      </header>
+
+      <div class="start-grid">
+        <div class="start-copy reveal">
+          <h3 class="mini-title" data-i18n="start.req">环境要求</h3>
+          <ul class="req">
+            <li><span class="req-k">Node.js</span><span>≥ 22.5</span></li>
+            <li><span class="req-k">Windows</span><span>10 / 11</span></li>
+            <li><span class="req-k" data-i18n="start.reqLocal">数据</span><span data-i18n="start.reqLocalV">只读本地会话存储</span></li>
+          </ul>
+          <p class="note" data-i18n="start.note">默认打开 http://localhost:9178。Windows 也可以双击 thinktree.bat，通过菜单启动、停止或查看日志。</p>
+          <div class="step-list">
+            <div class="step"><b>01</b><div><h4 data-i18n="start.s1">安装前端依赖</h4><p data-i18n="start.s1d">独立在 webapp/ 中安装，后端保持零运行时依赖。</p></div></div>
+            <div class="step"><b>02</b><div><h4 data-i18n="start.s2">构建并启动</h4><p data-i18n="start.s2d">构建产物由 Node 内置 HTTP 服务托管，默认端口 9178。</p></div></div>
+            <div class="step"><b>03</b><div><h4 data-i18n="start.s3">没有 agent？用演示数据</h4><p data-i18n="start.s3d">npm run demo 会生成一份中英混合的多轮合成会话。</p></div></div>
+          </div>
+        </div>
+
+        <div class="terminal reveal" aria-label="安装命令">
+          <div class="term-bar"><span class="term-dots"><i></i><i></i><i></i></span><span class="term-title">powershell — thinktree</span></div>
+          <div class="term-body">
+            <div class="term-line">
+              <div class="term-cmd"><span class="prompt">&gt;</span><code>npm run web:install</code></div>
+              <button class="copy mini" type="button" data-copy="npm run web:install" data-i18n="copy">复制</button>
+            </div>
+            <div class="term-line">
+              <div class="term-cmd"><span class="prompt">&gt;</span><code>npm run build:web</code></div>
+              <button class="copy mini" type="button" data-copy="npm run build:web" data-i18n="copy">复制</button>
+            </div>
+            <div class="term-line">
+              <div class="term-cmd"><span class="prompt">&gt;</span><code>npm start</code></div>
+              <button class="copy mini" type="button" data-copy="npm start" data-i18n="copy">复制</button>
+            </div>
+            <div class="term-out"><span class="tty">thinkTREE</span> <span data-i18n="start.out">面板已启动</span> <span class="tty-accent">http://localhost:9178</span></div>
+            <div class="term-line demo">
+              <div class="term-cmd"><span class="prompt">&gt;</span><code>npm run demo</code></div>
+              <button class="copy mini" type="button" data-copy="npm run demo" data-i18n="copy">复制</button>
+            </div>
+            <div class="term-out dim" data-i18n="start.out2">没有本地 agent 时，用合成多轮数据预览界面。</div>
+          </div>
+          <div class="term-foot"><span class="dot"></span><span data-i18n="start.foot">只读 · 不上传 · MIT</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= agents ================= -->
+    <section class="section wrap" id="agents">
+      <header class="sec-head reveal">
+        <span class="sec-index">05</span>
+        <div>
+          <h2 data-i18n="agents.title">已经适配的 agent</h2>
+          <p data-i18n="agents.lead">读取各 agent 的原生本地存储，不做屏幕捕获。opencode TUI 与 pi CLI 是主要验证平台。</p>
+        </div>
+      </header>
+
+      <div class="agent-table reveal">
+        <div class="agent-row agent-head">
+          <span data-i18n="agents.name">Agent</span>
+          <span data-i18n="agents.iface">接口</span>
+          <span data-i18n="agents.status">状态</span>
+          <span data-i18n="agents.store">数据源</span>
+        </div>
+        <div class="agent-row">
+          <span class="agent-name"><i class="agent-mark" style="--c:#5ffa68"></i>opencode</span>
+          <span class="agent-iface">CLI / TUI</span>
+          <span class="agent-status verified"><i></i><span data-i18n="agents.primary">主要验证</span></span>
+          <span class="agent-store">opencode.db</span>
+        </div>
+        <div class="agent-row">
+          <span class="agent-name"><i class="agent-mark" style="--c:#5ffa68"></i>pi</span>
+          <span class="agent-iface">CLI</span>
+          <span class="agent-status verified"><i></i><span data-i18n="agents.primary">主要验证</span></span>
+          <span class="agent-store">~/.pi/agent/sessions</span>
+        </div>
+        <div class="agent-row">
+          <span class="agent-name"><i class="agent-mark" style="--c:#c7c400"></i>Codex</span>
+          <span class="agent-iface">CLI</span>
+          <span class="agent-status adapted"><i></i><span data-i18n="agents.adapted">已适配，未大量验证</span></span>
+          <span class="agent-store">~/.codex/sessions</span>
+        </div>
+        <div class="agent-row">
+          <span class="agent-name"><i class="agent-mark" style="--c:#c7c400"></i>Kimi Code</span>
+          <span class="agent-iface">CLI</span>
+          <span class="agent-status adapted"><i></i><span data-i18n="agents.adapted">已适配，未大量验证</span></span>
+          <span class="agent-store">~/.kimi-code/sessions</span>
+        </div>
+        <div class="agent-row">
+          <span class="agent-name"><i class="agent-mark" style="--c:#c7c400"></i>ZCode</span>
+          <span class="agent-iface">CLI</span>
+          <span class="agent-status adapted"><i></i><span data-i18n="agents.adapted">已适配，未大量验证</span></span>
+          <span class="agent-store">~/.zcode/cli/db</span>
+        </div>
+        <div class="agent-row">
+          <span class="agent-name"><i class="agent-mark" style="--c:#c7c400"></i>Cline</span>
+          <span class="agent-iface">VS Code</span>
+          <span class="agent-status adapted"><i></i><span data-i18n="agents.adapted">已适配，未大量验证</span></span>
+          <span class="agent-store">globalStorage</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= privacy ================= -->
+    <section class="section wrap" id="privacy">
+      <header class="sec-head reveal">
+        <span class="sec-index">06</span>
+        <div>
+          <h2 data-i18n="privacy.title">只读本地，不上传</h2>
+          <p data-i18n="privacy.lead">会话内容属于你。thinkTREE 只做一件事：把你本机已有的事件读出来，画成图。</p>
+        </div>
+      </header>
+
+      <div class="privacy-grid">
+        <div class="privacy-card reveal"><span class="p-ico">01</span><h3 data-i18n="p1.title">只读本地存储</h3><p data-i18n="p1.desc">读取 opencode、pi、Codex 等 agent 的本地数据库或 JSONL 文件，不修改原始数据。</p></div>
+        <div class="privacy-card reveal"><span class="p-ico">02</span><h3 data-i18n="p2.title">无网络上传</h3><p data-i18n="p2.desc">会话内容不出本机。服务只在你启动的本地端口上通过 /api 提供数据。</p></div>
+        <div class="privacy-card reveal"><span class="p-ico">03</span><h3 data-i18n="p3.title">不截屏 / 不 OCR</h3><p data-i18n="p3.desc">直接解析结构化存储，不抓取屏幕像素，不识别终端画面。</p></div>
+        <div class="privacy-card reveal"><span class="p-ico">04</span><h3 data-i18n="p4.title">无遥测</h3><p data-i18n="p4.desc">没有统计上报、没有账号、没有云端依赖。断开网络仍可运行。</p></div>
+      </div>
+      <p class="warn reveal"><i></i><span data-i18n="privacy.warn">服务默认监听 0.0.0.0:9178 且没有登录鉴权。请只在可信局域网使用，或用防火墙限制端口，不要直接暴露到公网。</span></p>
+    </section>
+
+    <!-- ================= final cta ================= -->
+    <section class="finale wrap">
+      <div class="finale-inner reveal">
+        <p class="eyebrow"><i></i><span data-i18n="cta.eyebrow">STOP SCROLLING · START SEEING</span></p>
+        <h2 data-i18n="cta.title">打开它，停止翻页。</h2>
+        <p data-i18n="cta.lead">下一个长会话开始时，让每一步都有位置。</p>
+        <div class="cta center">
+          <a class="btn primary" href="https://github.com" data-github target="_blank" rel="noopener noreferrer" data-i18n="cta.btn1">在 GitHub 查看</a>
+          <a class="btn" href="#start" data-i18n="cta.btn2">查看安装步骤</a>
+        </div>
+        <div class="cmd center">
+          <code>npm run demo</code>
+          <button class="copy" type="button" data-copy="npm run demo" data-i18n="copy">复制</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div class="f-brand">
+        <svg width="140" height="26" viewBox="0 0 195 34" role="img" aria-label="thinkTREE">
+          <path d="M18 29V13.5M9 13.5h17M26 13.5 29.5 9.5" fill="none" stroke="#f2f2f2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9" cy="13.5" r="2.2" fill="#00c5c7"/><circle cx="29.5" cy="9.5" r="2.2" fill="#00c5c7"/><circle cx="18" cy="29" r="2.2" fill="#00c5c7"/>
+          <text x="36" y="28" font-size="19" font-weight="500" fill="#f2f2f2">hink<tspan fill="#00c5c7" font-weight="600">T</tspan><tspan font-weight="600" letter-spacing=".8">REE</tspan></text>
+        </svg>
+        <p data-i18n="footer.tagline">把 agent 的工作轨迹摊开在一张图上。</p>
+      </div>
+      <div class="f-links">
+        <span class="f-head" data-i18n="footer.links">项目</span>
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" data-github>GitHub</a>
+        <a href="#start" data-i18n="footer.install">安装</a>
+        <a href="#agents" data-i18n="footer.agents">支持的 agent</a>
+        <a href="#privacy" data-i18n="footer.privacy">隐私</a>
+      </div>
+      <div class="f-links">
+        <span class="f-head" data-i18n="footer.docs">说明</span>
+        <span data-i18n="footer.license">MIT License</span>
+        <span data-i18n="footer.third">第三方组件许可见 THIRD_PARTY_NOTICES</span>
+        <span data-i18n="footer.status">状态：早期版本，持续适配中</span>
+      </div>
+    </div>
+    <div class="wrap footer-base">
+      <span data-i18n="footer.built">基于 thinktree-fast 项目构建的静态展示站</span>
+      <span>thinkTREE · <span data-i18n="footer.local">只读本地数据</span></span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
