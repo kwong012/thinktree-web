@@ -44,47 +44,41 @@
 
   <main id="main">
     <!-- ================= hero ================= -->
-    <section class="hero wrap" id="top">
-      <div class="hero-copy">
-        <p class="eyebrow reveal"><i></i><span data-i18n="hero.eyebrow">LOCAL-FIRST · AGENT TRACE</span></p>
-        <h1 class="reveal" data-i18n-html="hero.title">把 agent 的<br><em>工作轨迹</em>摊开在<br>一张图上。</h1>
-        <p class="lead reveal" data-i18n="hero.lead">终端里的对话越翻越长。thinkTREE 把每个会话变成一张可缩放、可拖动的工作轨迹图：左侧完整对话树，右侧无限画布，右下角小地图。点一下，就回到对应位置。</p>
-
-        <div class="cta reveal">
-          <a class="btn primary" href="#trace"><span data-i18n="hero.cta1">查看实时演示</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M2.5 7.5 6 11l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a class="btn" href="#start" data-i18n="hero.cta2">快速开始</a>
-        </div>
-
-        <div class="cmd reveal">
-          <span class="cmd-label" data-i18n="hero.cmdLabel">QUICK PREVIEW</span>
-          <code>npm run demo</code>
-          <button class="copy" type="button" data-copy="npm run demo" data-i18n="copy">复制</button>
-        </div>
-
-        <div class="hero-meta reveal">
-          <div><b>6</b><span data-i18n="hero.m1">agent 适配</span></div>
-          <div><b>12ms</b><span data-i18n="hero.m2">7.2k 节点 p95</span></div>
-          <div><b>0</b><span data-i18n="hero.m3">数据上传</span></div>
-          <div><b>MIT</b><span data-i18n="hero.m4">开源许可</span></div>
-        </div>
+    <section class="hero" id="top">
+      <div class="hero-media" aria-hidden="true">
+        <video id="heroVideo" autoplay muted loop playsinline preload="metadata" poster="assets/canvas-poster.jpg">
+          <source src="assets/canvas-demo.mp4" type="video/mp4">
+        </video>
+        <div class="hero-shade"></div>
       </div>
 
-      <div class="hero-visual reveal">
-        <div class="showcase" id="showcase">
-          <video id="heroVideo" class="showcase-video" autoplay muted loop playsinline preload="metadata" poster="assets/canvas-poster.jpg" aria-label="thinkTREE 真实会话画布录制">
-            <source src="assets/canvas-demo.mp4" type="video/mp4">
-            <p class="video-fallback" data-i18n-html="hero.videoFallbackHtml">浏览器不支持视频播放。<a href="assets/canvas-demo.mp4">下载演示视频</a></p>
-          </video>
-          <div class="showcase-bar">
-            <span class="rec"><i></i><span data-i18n="hero.videoLabel">REAL RECORDING</span></span>
-            <span class="showcase-time">14s · 1280×672</span>
-            <button class="video-toggle" id="videoToggle" type="button" aria-label="暂停视频">
-              <svg class="ico-pause" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2v8M8 2v8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-              <svg class="ico-play" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2.2 9.5 6 4 9.8Z" fill="currentColor"/></svg>
-            </button>
+      <div class="wrap hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow reveal"><i></i><span data-i18n="hero.eyebrow">LOCAL-FIRST · AGENT TRACE</span></p>
+          <h1 class="reveal" data-i18n-html="hero.title">把 agent 的工作轨迹，<br>整理成<em>一张可缩放的地图</em>。</h1>
+          <p class="lead reveal" data-i18n="hero.lead">thinkTREE 读取本地 agent 会话，把提问、上下文、模型调用、工具与回答组织成可缩放的工作轨迹。左侧对话树，右侧画布，右下角小地图。只读本地数据。</p>
+
+          <div class="cta reveal">
+            <a class="btn primary" href="#trace"><span data-i18n="hero.cta1">查看演示</span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M2.5 7.5 6 11l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a class="btn" href="#start" data-i18n="hero.cta2">安装</a>
+          </div>
+
+          <div class="hero-meta reveal">
+            <div><b>6</b><span data-i18n="hero.m1">agent 适配</span></div>
+            <div><b>12ms</b><span data-i18n="hero.m2">7.2k 节点 p95</span></div>
+            <div><b>0</b><span data-i18n="hero.m3">数据上传</span></div>
+            <div><b>MIT</b><span data-i18n="hero.m4">开源许可</span></div>
           </div>
         </div>
-        <p class="visual-cap"><span data-i18n="hero.cap">真实会话录制 · 可暂停回看</span><span>SESSION 01 · RECORDED</span></p>
+
+        <div class="hero-caption reveal">
+          <span class="rec"><i></i><span data-i18n="hero.videoLabel">真实会话录制</span></span>
+          <span class="hero-caption-meta">14s · 1280×672</span>
+          <button class="video-toggle" id="videoToggle" type="button" aria-label="暂停视频">
+            <svg class="ico-pause" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2v8M8 2v8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <svg class="ico-play" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2.2 9.5 6 4 9.8Z" fill="currentColor"/></svg>
+          </button>
+        </div>
       </div>
     </section>
 

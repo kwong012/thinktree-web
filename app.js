@@ -24,21 +24,21 @@
       'nav.start': '快速开始',
       'nav.agents': 'Agents',
       'hero.eyebrow': 'LOCAL-FIRST · AGENT TRACE',
-      'hero.title': '把 agent 的<br><em>工作轨迹</em>摊开在<br>一张图上。',
-      'hero.lead': '终端里的对话越翻越长。thinkTREE 把每个会话变成一张可缩放、可拖动的工作轨迹图：左侧完整对话树，右侧无限画布，右下角小地图。点一下，就回到对应位置。',
-      'hero.cta1': '查看实时演示',
-      'hero.cta2': '快速开始',
+      'hero.title': '把 agent 的工作轨迹，<br>整理成<em>一张可缩放的地图</em>。',
+      'hero.lead': 'thinkTREE 读取本地 agent 会话，把提问、上下文、模型调用、工具与回答组织成可缩放的工作轨迹。左侧对话树，右侧画布，右下角小地图。只读本地数据。',
+      'hero.cta1': '查看演示',
+      'hero.cta2': '安装',
       'hero.cmdLabel': 'QUICK PREVIEW',
       'hero.m1': 'agent 适配',
       'hero.m2': '7.2k 节点 p95',
       'hero.m3': '数据上传',
       'hero.m4': '开源许可',
       'hero.cap': '真实会话录制 · 可暂停回看',
-      'hero.videoLabel': 'REAL RECORDING',
-      'hero.videoPause': '暂停视频',
-      'hero.videoPlay': '播放视频',
+      'hero.videoLabel': '真实会话录制',
+      'hero.videoPause': '暂停',
+      'hero.videoPlay': '播放',
       'hero.videoFallbackHtml': '浏览器不支持视频播放。<a href="assets/canvas-demo.mp4">下载演示视频</a>',
-      'hero.videoAria': 'thinkTREE 真实会话画布录制',
+      'hero.videoAria': 'thinkTREE 真实会话录制',
 
       'trace.title': '一张图，替代 endless scroll',
       'trace.lead': '拖拽平移、滚轮缩放、点击节点展开。左侧轨迹树与画布同步定位。演示数据为合成数据，不会读取你的任何文件。',
@@ -128,10 +128,10 @@
       'nav.start': 'Quick start',
       'nav.agents': 'Agents',
       'hero.eyebrow': 'LOCAL-FIRST · AGENT TRACE',
-      'hero.title': 'Turn a long<br>chat log into<br><em>one trace map.</em>',
-      'hero.lead': 'Terminal sessions keep getting longer. thinkTREE turns each one into a zoomable, draggable map of the work: a full turn tree on the left, an infinite canvas on the right, a minimap in the corner. Click a step and you are there.',
-      'hero.cta1': 'Explore the live demo',
-      'hero.cta2': 'Quick start',
+      'hero.title': 'An agent\'s working trace,<br>on <em>a zoomable map</em>.',
+      'hero.lead': 'thinkTREE reads local agent sessions and organizes prompts, context, model calls, tools, and answers into a zoomable trace. A turn tree on the left, a canvas on the right, a minimap in the corner. Read-only.',
+      'hero.cta1': 'View the demo',
+      'hero.cta2': 'Install',
       'hero.cmdLabel': 'QUICK PREVIEW',
       'hero.m1': 'agents adapted',
       'hero.m2': '7.2k nodes p95',
@@ -139,10 +139,10 @@
       'hero.m4': 'open source',
       'hero.cap': 'Real session recording · pause anytime',
       'hero.videoLabel': 'REAL RECORDING',
-      'hero.videoPause': 'Pause video',
-      'hero.videoPlay': 'Play video',
+      'hero.videoPause': 'Pause',
+      'hero.videoPlay': 'Play',
       'hero.videoFallbackHtml': 'Your browser cannot play this video. <a href="assets/canvas-demo.mp4">Download the demo</a>',
-      'hero.videoAria': 'thinkTREE real session canvas recording',
+      'hero.videoAria': 'thinkTREE real session recording',
 
       'trace.title': 'One map instead of endless scroll',
       'trace.lead': 'Pan, zoom, and click nodes to expand. The trajectory tree stays in sync with the canvas. The demo uses synthetic data and never reads your files.',
@@ -1164,24 +1164,23 @@
 
 
   /* ---------------- hero real recording ---------------- */
-  const showcase = $('#showcase');
+  const heroSection = $('.hero');
   const heroVideo = $('#heroVideo');
   const videoToggle = $('#videoToggle');
 
   function syncVideo() {
-    if (!showcase || !heroVideo || !videoToggle) return;
+    if (!heroSection || !heroVideo || !videoToggle) return;
     const paused = heroVideo.paused;
-    showcase.classList.toggle('paused', paused);
+    heroSection.classList.toggle('paused', paused);
     videoToggle.setAttribute('aria-label', paused ? t('hero.videoPlay') : t('hero.videoPause'));
   }
 
-  if (showcase && heroVideo && videoToggle) {
+  if (heroSection && heroVideo && videoToggle) {
     const toggleVideo = () => {
       if (heroVideo.paused) heroVideo.play().catch(() => syncVideo());
       else heroVideo.pause();
     };
     videoToggle.addEventListener('click', toggleVideo);
-    heroVideo.addEventListener('click', toggleVideo);
     heroVideo.addEventListener('play', syncVideo);
     heroVideo.addEventListener('pause', syncVideo);
     if (reduceMotion) heroVideo.pause();
