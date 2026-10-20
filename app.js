@@ -230,7 +230,23 @@
   const metaDesc = $('meta[name="description"]');
   const langBtn = $('#langBtn');
 
-  let lang = localStorage.getItem('tt-web-lang') || 'zh';
+  function readStoredLang() {
+    try {
+      return localStorage.getItem('tt-web-lang') || 'zh';
+    } catch {
+      return 'zh';
+    }
+  }
+
+  function saveLang(value) {
+    try {
+      localStorage.setItem('tt-web-lang', value);
+    } catch {
+      // file:// or privacy mode may block storage; keep the page usable.
+    }
+  }
+
+  let lang = readStoredLang();
   if (!I18N[lang]) lang = 'zh';
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -256,7 +272,7 @@
     langBtn.textContent = lang === 'zh' ? 'EN' : '中';
     langBtn.setAttribute('aria-label', lang === 'zh' ? 'Switch to English' : '切换为中文');
     if (typeof syncVideo === 'function') syncVideo();
-    if (save) localStorage.setItem('tt-web-lang', lang);
+    if (save) saveLang(lang);
   }
 
   langBtn.addEventListener('click', () => {

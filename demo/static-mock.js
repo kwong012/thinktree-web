@@ -209,7 +209,9 @@ window.fetch = (input, init) => {
     return originalFetch(input, init);
   }
 
-  const path = url.pathname;
+  const rawPath = url.pathname;
+  const apiIndex = rawPath.indexOf('/api/');
+  const path = apiIndex >= 0 ? rawPath.slice(apiIndex) : rawPath;
 
   if (path === '/api/agents') return Promise.resolve(jsonResponse(makeSnapshot()));
 

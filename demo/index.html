@@ -4,11 +4,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>thinkTREE · agent 工作底层</title>
-    <script type="module" src="./static-mock.js"></script>
-    <script type="module" crossorigin src="./assets/index-D-RYEfIA.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-B4spiT8j.css">
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      if (location.protocol === 'file:') {
+        document.write(
+          '<link rel="stylesheet" href="./classic/assets/thinktree-webapp.css">' +
+            '<script src="./classic/demo.js"><\/script>',
+        );
+      } else {
+        document.write(
+          '<script type="module" src="./static-mock.js"><\/script>' +
+            '<script type="module" crossorigin src="./assets/index-D-RYEfIA.js"><\/script>' +
+            '<link rel="stylesheet" crossorigin href="./assets/index-B4spiT8j.css">',
+        );
+      }
+    </script>
   </body>
 </html>
