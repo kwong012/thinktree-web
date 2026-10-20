@@ -114,6 +114,7 @@ code { font-family: var(--mono); }
 
 .section { position: relative; padding: 96px 0 0; scroll-margin-top: 70px; }
 .sec-head {
+  --sec-title: clamp(24px, 3vw, 36px);
   display: grid; grid-template-columns: 44px 1fr; gap: 18px;
   align-items: start;
   margin-bottom: 30px;
@@ -121,11 +122,11 @@ code { font-family: var(--mono); }
   padding-top: 20px;
 }
 .sec-index {
-  font: 10px/1.6 var(--mono); letter-spacing: .12em; color: var(--accent);
-  padding-top: 2px;
+  font: 600 var(--sec-title)/1.15 var(--mono);
+  color: var(--accent);
 }
 .sec-head h2 {
-  font-size: clamp(24px, 3vw, 36px); line-height: 1.15;
+  font-size: var(--sec-title); line-height: 1.15;
   font-weight: 650; letter-spacing: -.015em;
 }
 .sec-head p { max-width: 680px; margin-top: 10px; font-size: 13px; color: var(--muted); line-height: 1.75; }
