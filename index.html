@@ -92,60 +92,28 @@
         </div>
       </header>
 
-      <div class="app-mock reveal">
-        <div class="mock-topbar">
-          <div class="mock-brand">
-            <svg width="96" height="20" viewBox="0 0 195 34" aria-hidden="true">
-              <path d="M18 29V13.5M9 13.5h17M26 13.5 29.5 9.5" fill="none" stroke="#f2f2f2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="9" cy="13.5" r="2.2" fill="#00c5c7"/><circle cx="29.5" cy="9.5" r="2.2" fill="#00c5c7"/><circle cx="18" cy="29" r="2.2" fill="#00c5c7"/>
-              <text x="36" y="28" font-size="19" font-weight="500" fill="#f2f2f2">hink<tspan fill="#00c5c7" font-weight="600">T</tspan><tspan font-weight="600" letter-spacing=".8">REE</tspan></text>
-            </svg>
-          </div>
-          <span class="mock-status"><i></i>LIVE</span>
-          <div class="mock-tabs">
-            <button type="button" class="on">opencode <em>CLI/TUI</em><i class="focusdot"></i></button>
-            <button type="button">pi <em>CLI</em></button>
-          </div>
-          <div class="mock-actions"><button type="button" data-i18n="trace.data">数据</button><button type="button">中</button></div>
+      <div class="demo-embed reveal">
+        <div class="demo-bar">
+          <span class="demo-title">thinkTREE / DEMO</span>
+          <span class="demo-state" id="demoState" data-state="checking"><i class="demo-dot"></i><span id="demoStatus">检查中</span></span>
+          <span class="demo-meta" data-i18n="demo.meta">22 轮 · 148 个事件</span>
+          <span class="demo-swipe" data-i18n="demo.swipe">横向滚动查看</span>
+          <a class="demo-open" href="http://localhost:9178/" target="_blank" rel="noopener" data-i18n="demo.open">在新窗口打开 ↗</a>
         </div>
-        <div class="mock-sessionbar">
-          <span class="session-current" data-i18n="trace.session">重构会话解析层</span>
-          <span class="spacer"></span>
-          <span class="meta"><span data-i18n="trace.meta">2 turns · 13 events · D:\agent\thinktree</span></span>
-        </div>
-
-        <div class="mock-body">
-          <aside class="trace-tree">
-            <div class="tree-head">
-              <span class="tree-title">TRAJECTORY</span>
-              <span class="tree-count">2</span>
-            </div>
-            <div class="tree-body" id="treeBody"></div>
-          </aside>
-
-          <div class="trace-stage" id="traceStage">
-            <div class="stage-toolbar">
-              <div class="legend" id="legend"></div>
-              <div class="toolbar-right">
-                <span class="lod-pill" id="lodPill">MID</span>
-                <button type="button" class="reset" id="resetBtn" data-i18n="trace.reset">复位</button>
+        <div class="demo-view">
+          <iframe id="demoFrame" data-src="http://localhost:9178/" title="thinkTREE 虚拟演示" loading="lazy" hidden></iframe>
+          <div class="demo-fallback" id="demoFallback">
+            <div class="demo-fallback-inner">
+              <p class="demo-fallback-title" data-i18n="demo.fallbackTitle">本地演示尚未启动</p>
+              <p class="demo-fallback-note" data-i18n="demo.fallbackNote">在项目根目录运行：</p>
+              <div class="cmd demo-cmd">
+                <code>npm run demo</code>
+                <button class="copy" type="button" data-copy="npm run demo" data-i18n="copy">复制</button>
               </div>
+              <p class="demo-fallback-hint" data-i18n="demo.fallbackHint">启动后点击重试。默认地址 http://localhost:9178。</p>
+              <p class="demo-static-note" data-i18n="demo.staticNote">静态站点无法运行 Node 服务；首页视频是同一份虚拟会话的真实录制。</p>
+              <button class="btn" id="demoRetry" type="button" data-i18n="demo.retry">重新检查</button>
             </div>
-
-            <canvas id="traceCanvas" aria-label="thinkTREE 轨迹图交互演示"></canvas>
-
-            <div class="stage-detail" id="nodeDetail" hidden></div>
-
-            <div class="stage-controls">
-              <button type="button" id="zoomOut" aria-label="缩小">−</button>
-              <button type="button" id="zoomIn" aria-label="放大">+</button>
-              <button type="button" id="fitBtn" aria-label="适应画布">
-                <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 4V1h3M8 1h3v3M11 8v3H8M4 11H1V8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-              </button>
-            </div>
-
-            <canvas class="mini-canvas" id="miniCanvas" aria-label="小地图"></canvas>
-            <p class="stage-hint" data-i18n="trace.hint">拖拽平移 · 滚轮缩放 · 点击节点展开</p>
           </div>
         </div>
       </div>
