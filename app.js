@@ -7,7 +7,7 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  const REPO_URL = 'https://github.com'; // TODO: replace with your real repository URL
+  const REPO_URL = 'https://github.com/kwong012/thinktree';
   document.querySelectorAll('[data-github]').forEach((a) => { a.href = REPO_URL; });
 
   const I18N = {

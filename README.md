@@ -53,7 +53,7 @@ npx --yes serve . -l 8080
    git add .
    git commit -m "Add thinktree-web landing page"
    git branch -M main
-   git remote add origin https://github.com/<你的用户名>/thinktree-web.git
+   git remote add origin https://github.com/kwong012/thinktree-web.git
    git push -u origin main
    ```
 
@@ -63,11 +63,11 @@ npx --yes serve . -l 8080
 访问地址：
 
 ```
-https://<你的用户名>.github.io/thinktree-web/
+https://kwong012.github.io/thinktree-web/
 ```
 
 > 免费账号需要仓库为 **Public**。私有仓库使用 Pages 需要 GitHub Pro。
-> 如果仓库名就是 `<你的用户名>.github.io`，地址会变成 `https://<你的用户名>.github.io/`。
+> 当前仓库名不是 `kwong012.github.io`，因此地址是 `https://kwong012.github.io/thinktree-web/`。
 
 GitHub Pages 发布 `index.html`、`styles.css`、`app.js`、`favicon.svg`、`.nojekyll`、`assets/` 与 `demo/`；`demo/` 已包含演示所需的全部静态资源，线上可直接交互，不需要任何服务器。
 
@@ -76,7 +76,7 @@ GitHub Pages 发布 `index.html`、`styles.css`、`app.js`、`favicon.svg`、`.n
 在仓库 **Settings → Pages → Custom domain** 填入域名，然后按提示配置 DNS：
 
 - 根域名：`A` 记录指向 GitHub Pages 的 IP（见 GitHub 文档）
-- 子域名：`CNAME` 记录指向 `<你的用户名>.github.io`
+- 子域名：`CNAME` 记录指向 `kwong012.github.io`
 
 勾选 Enforce HTTPS 后即可使用。
 
@@ -93,7 +93,7 @@ GitHub Pages 发布 `index.html`、`styles.css`、`app.js`、`favicon.svg`、`.n
 
 ## 部署前检查
 
-- 把 `app.js` 顶部的 `REPO_URL` 替换成实际仓库地址；页头、底部 CTA 与页脚的 GitHub 链接会统一更新。
+- `app.js` 顶部的 `REPO_URL` 已指向 <https://github.com/kwong012/thinktree>；页头、底部 CTA 与页脚的 GitHub 链接会统一更新。
 - 如需调整品牌色、字号或间距，修改 `styles.css` 顶部的 `:root` 变量即可。
 - 首页展示视频为 `assets/canvas-demo.mp4`，与 `out-assets/docs/demo-canvas.mp4` 内容一致；如需更换视频，替换该文件并同时更新 `assets/canvas-poster.jpg` 封面。
 - 内嵌演示地址在 `index.html` 的 `#demoFrame[src]` 与「在新窗口打开」链接中，默认 `demo/`。

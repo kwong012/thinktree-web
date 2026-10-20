@@ -5,6 +5,11 @@
   "type": "module",
   "description": "thinkTREE static showcase site with a local demo app",
   "license": "MIT",
+  "homepage": "https://kwong012.github.io/thinktree-web/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kwong012/thinktree-web.git"
+  },
   "scripts": {
     "demo": "npm --prefix demo-app run demo",
     "start": "npm --prefix demo-app start"
